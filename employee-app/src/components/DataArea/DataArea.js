@@ -1,8 +1,8 @@
 ///To make sure the DataArea is rendering, we are taking imporing th eNavbar, API, and the Datatable from the components folder///
 import React, { Component } from 'react';
-import DataTable from "../DataTable";
-import NavBar from "../Navbar";
-import API from "../utils/API";
+import DataTable from "../DataTable/DataTable.js";
+import NavBar from "../Navbar/NavBar.js";
+import API from "/Users/joshu/Employee-Directory/employee-app/src/utils/API.js";
 import "../DataArea/style.css";
 ////Extending the DataArea as a clas from the component folder////
 export default class DataArea extends Component{

@@ -1,5 +1,5 @@
 import React from 'react';
-import DataBody from '../DataBody';
+import DataBody from '../DataBody/DataBody.js';
 import '../DataTable/style.css';
 
 ////Creating a DataTable function to map out the headings ///

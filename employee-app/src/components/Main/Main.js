@@ -1,5 +1,5 @@
 import React, {Component}from 'React'
-import DataArea from "../DataArea";
+import DataArea from "../DataArea/DataArea.js";
 
 ///// extend the main class and render the Data from the DataArea folder////
 
