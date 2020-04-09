@@ -4,7 +4,7 @@ import '../Wrapper/style.css';
 function Wrapper({employees}){
 return(
     <div className ="wrapper">
-        Wrapper
+        {employees};
     </div>
 )
 }
