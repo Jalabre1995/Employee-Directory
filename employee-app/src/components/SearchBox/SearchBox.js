@@ -2,25 +2,40 @@ import React from 'react';
 import "../SearchBox/style.css";
 
 
-function SearchBox ({ handleSearch}) {
+function SearchBox (props) {
     return (
       ///Create a div class fro the searchBox/////
       <div className="searchBox">
-          <form className='form-group'>
-              <label htmlFor="Search">Search</label>
-              <input
-              className="form-control"
-              type="search"
-              placeholder="Search"
-              onChnage={e=> handleSearch(e)}
-              ///Use a handleSearch method to make sure when the data gets tyoed and submitted that it will return the data retrieved from the API
-              />
-              
-              <button className= "btn" type="submit">
-                  Search
-              </button>
+          <header className ="SearchHeader">
+              <div className="row">
+                  {/*<header className=" > */}
+                  <div className= "col-md-s6">
+                      <h3 className= 'right-align headerText'>Employee Search</h3>
 
-          </form>
+                  </div>
+                  <div className= 'col-md-s6'>
+                      <div className= "col s6 inputAndButton right-align">
+                          <input 
+                          onChange={props.handleInputChange}
+                          value = {props.value}
+                          id= "emplpoyees"
+                          type="text"
+                          name="search"
+                          list = "employee"
+                          className= 'inputBox'
+                          placeholde= 'Search by employee name'/>
+
+                      </div>
+                      <div className= 'col-md-4'>
+                          <button 
+                          type= 'submit'
+                          vlaue = ""
+                          className= 'searchBttn'
+                          onClick={props.handleSearch} >Search</button> 
+                      </div>
+                  </div>
+              </div>
+          </header>
       </div>
     );
 }

@@ -1,106 +1,96 @@
 ///To make sure the DataArea is rendering, we are taking imporing th eNavbar, API, and the Datatable from the components folder///
 import React, { Component } from 'react';
-import DataTable from "../DataTable/DataTable.js";
-import NavBar from "../Navbar/NavBar.js";
+import SearchBox from "../SearchBox";
+import DataTable from "../DataTable";
 import API from "/Users/joshu/Employee-Directory/employee-app/src/utils/API.js";
-import "../DataArea/style.css";
+import "./style.css"
 ////Extending the DataArea as a clas from the component folder////
-export default class DataArea extends Component{
- ////Created a constructor to specify for the class for the state what we want to retireve. In this case its the image, name, email, phone, DOB////
-    constructor() {
-        super();
-        this.state = {
-            users: [{}],
-            order: "descend",
-            filteredUsers:[{}],
-            heading: [
-                {name: "Image", width: "20%"},
-                {name: "Name", width: "20%"},
-                {name: "Phone", width: "20%"},
-                {name: "Email", width: "20%"},
-                {name: "DOB", width: "20%"},
-            ],
-            handleSort: heading => {
-                if( this.state.order === 'descend') {
-                    this.setState({
-                        order: "ascend"
-                    })
-                } else {
-                    this.setState({
-                        order: "descend"
-                    })
-                }
-                ////If there is information missign from the account  we are going to use
-                /// an conditiional to the heading as 1 oe -1 if there is an undefined////
-
-                const compareValues = (a,b) => {
-                    if (this.state.order === "ascend"){
-                    ///Keep track of the files that are missing////
-                    if (a[heading] === undefined) {
-                        return 1;
-                    }else if(b[heading] === undefined) {
-                        return -1;
-                    }else if (heading === "name") {
-                    return a[heading].first.localCompare(b[heading].first);
-                    }else {
-                        return a[heading] -  b[heading];
-                    }
-                    }else {
-                        if (a[heading]=== undefined) {
-                            return 1;
-                        }else if (b[heading] === undefined){
-                            return -1;
-                        }
-                        else if (heading === "name") {
-                            return b[heading].first.localCompare(a[heading].first);
-                        }else { 
-                            return b[heading] -a[heading];
-                        }
-                        }
-                    }
-                    ///Filtering the users in the database////
-                    const sortedUsers = this.state.filteredUsers.sort(compareValues);
-                    this.setState({filteredUsers:sortedUsers});
-                },
-                ////Create a handleSearchChange Event to handle the filtr a list that was sorted or not sorted///
-                handleSearchChange: event => {
-                    console.log(event.target.value);
-                    const filter = event.target.value;
-                    const filteredList = this.state.users.filter(item => {
-                        ////Merge the value and the object together////
-                        let values = Object.values(item)
-                        .join('')
-                        .toLowerCase();
-                        return values.indexOf(filter.toLowerCase()) !== -1;
-                    });
-                    this.state({filteredUsers: filteredList});
-
-                }
-
-            };
+class DataArea extends Component{
+    ///The search starts as a empty string and employees and fileted employees are empty 
+    state ={
+        search: "",
+        employees: [],
+        filteredEmployees: [],
+        order: ""
+    };
+    componentDidMount() {
+        API.getUsers().then(results => this.setState({
+            employees: results.data.results,
+                filteredEmployees: results.data.results
+            })).catch(err => console.log(err));
         }
-        ////Calling Axios to retireve the data/////
-        componentDidMount() {
-            API.getUsers().then(results => {
+
+        ///if the employees i clicked then they are picked by ascending and descending ordere///
+        sortByName = () => {
+            const filter = this.state.filteredEmployees;
+            if(this.state.order === 'ascending') {
+                const sorteds = filter.sort((a,b) => (a.name.first> b.name.first) ? 1: -1)
+                console.log(sorteds);
+                this.state({
+                    filteredEmployees:sorteds,
+                    order: 'descending'
+                })
+            }else{
+                const sorteds = filter.sort ((a,b) => (a.name.first> b.name.first) ? -1: 1);
+                console.log(sorteds)
                 this.setState({
-                    users:results.data.results,
-                    filteredUsers:results.data.results
-                });
-            });
-        }
-        render() {
-            return (
-                <>
-                <NavBar handleSearchChange={this.state.handleSearchChange} />
-                <div className="data-area">
-                    <DataTable
-                    headings={this.state.headings}
-                    users={this.state.filteredUsers}
-                    handleSort={this.state.handleSort}
-                    />
-                </div>
-                </>
-            );
-        }
-        
+                    filteredEmployees: sorteds,
+                    order: 'ascending'
+                })
+            }
+        } 
+          ///Goint to put a handleInputChnage event to make the employees show when the input changes////
+          handleInputChange = event => {
+              const employees = this.state.employees;
+              const UserInput = event.target.value;
+              const filteredEmployees=employees.filter(employee=> employee.name.first.toLowerCase().indexOf(UserInput.toLowerCase())
+              )
+              this.setState({
+                  ///Change the state of the filteredEmployees////
+                filteredEmployees,
+              });
+          };
+          /////API is called when the page is refreshed////
+          employeeSearch=() => {
+              API.getUsers()
+              .then(response => this.setState({
+
+            ///Going to use props to keep the employee will remain the same but the filteresd Employee will change based ont he input from the user///
+            filteredEmployees:response.data.results,
+            employees: response.data.results
+
+              }))
+              .catch(err => console.log(err));
+          }
+          ////When the button is clicked the state from fitetred employee will change///
+          handleSearch = event => {
+              event.preventDefault();
+              if(!this.state.search) {
+                  alert("Enter a name")
+              }
+              const {employees, search} =this.state;
+              ///Object is filtered through what the user puts in///
+              const filteredEmployees = employees.filter(employee => employee.name.first.toLowerCase().includes(search.toLowerCase()));
+
+              this.state({
+                  filteredEmployees
+              });
+
+          }
+          render() {
+              return (
+                  <div>
+                      <SearchBox
+                      employee={this.state.employees}
+                      handleSearch ={this.handleSearch}
+                      handleInputChange={this.handleInputChange} />
+                      <DataTable results= {this.state.filteredEmployees}
+                      sortByName={this.sortByName}
+                      />
+                  </div>
+              )
+          }
     }
+
+
+    export default DataArea
