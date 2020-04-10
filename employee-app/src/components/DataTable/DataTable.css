@@ -1,0 +1,19 @@
+.dataTable {
+    margin-top: 5px;
+}
+
+th {
+    font-size: 17px;
+    letter-spacing: 2px;
+    font-family: 'Courier New', Courier, monospace;
+    color: lightblue;
+    cursor: pointer;
+}
+
+td {
+    font-size: 16px;
+    letter-spacing: 0.5px;
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: bold;
+
+}

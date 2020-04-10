@@ -1,5 +1,5 @@
 import React from 'react';
-import '../DataTable/style.css';
+import '../DataTable/DataTable.css'
 
 ////Creating a DataTable function to map out the headings ///
 

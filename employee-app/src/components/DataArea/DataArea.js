@@ -1,9 +1,9 @@
 ///To make sure the DataArea is rendering, we are taking imporing th eNavbar, API, and the Datatable from the components folder///
 import React, { Component } from 'react';
-import SearchBox from "../SearchBox";
-import DataTable from "../DataTable";
+import SearchBox from "../SearchBox/SearchBox.js";
+import DataTable from "../DataTable/DataTable.js";
 import API from "/Users/joshu/Employee-Directory/employee-app/src/utils/API.js";
-import "./style.css"
+import "../DataArea/DataArea.css"
 ////Extending the DataArea as a clas from the component folder////
 class DataArea extends Component{
     ///The search starts as a empty string and employees and fileted employees are empty 
@@ -14,9 +14,9 @@ class DataArea extends Component{
         order: ""
     };
     componentDidMount() {
-        API.getUsers().then(results => this.setState({
-            employees: results.data.results,
-                filteredEmployees: results.data.results
+        API.getUsers().then(res => this.setState({
+            employees: res.data.results,
+                filteredEmployees: res.data.results
             })).catch(err => console.log(err));
         }
 
@@ -72,7 +72,7 @@ class DataArea extends Component{
               ///Object is filtered through what the user puts in///
               const filteredEmployees = employees.filter(employee => employee.name.first.toLowerCase().includes(search.toLowerCase()));
 
-              this.state({
+              this.setState({
                   filteredEmployees
               });
 
