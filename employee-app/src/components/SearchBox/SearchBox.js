@@ -10,7 +10,8 @@ function SearchBox (props) {
               <div className="row">
                   {/*<header className=" > */}
                   <div className= "col-md-s6">
-                      <h3 className= 'right-align headerText'>Employee Search</h3>
+                      <h1 id= "title">Employee Directory</h1>
+                      <h3 className= 'right-align headerText'>Search</h3>
 
                   </div>
                   <div className= 'col-md-s6'>
