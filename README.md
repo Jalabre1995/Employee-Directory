@@ -19,4 +19,4 @@ The promblems that occured during this project was getting heroku to work for. W
 There still more work that needs to be done for the project. The input and searchBtn are close to the right side fo the screen. And definatley workign on getting Heroku up and runnng.
 # Deployment 
 install the dependcies and go on http://localhost:3000/ .
-Tryting to figure out how to deploy it in Heroku.
+https://camelodirectory.herokuapp.com/
